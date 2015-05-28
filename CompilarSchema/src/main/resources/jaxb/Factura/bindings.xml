@@ -12,14 +12,7 @@ and open the template in the editor.
     <!-- Raise theEnumMemberSizeCap limit -->
     <jxb:bindings >
         <jxb:globalBindings typesafeEnumMaxMembers="2000"/>
-    </jxb:bindings>
-    
-    <jxb:bindings schemaLocation="../common/UBL-CommonBasicComponents-2.0.xsd">
-        <jxb:schemaBindings>
-            <jxb:package name="UBLPE-SunatAggregateComponents"/>
-        </jxb:schemaBindings>
-    </jxb:bindings>
-    
+    </jxb:bindings>            
     <jxb:bindings schemaLocation="../common/UBLPE-SunatAggregateComponents-1.0.xsd">
         <jxb:bindings node="//xsd:complexType[@name='AdditionalInformationType']">
             <jxb:class name="AdditionalInformationTypeSunatAgg"/>
@@ -38,6 +31,12 @@ and open the template in the editor.
     <jxb:bindings schemaLocation="../common/UBL-CommonBasicComponents-2.0.xsd">
         <jxb:bindings node="//xsd:complexType[@name='AmountType']">
             <jxb:class name="AmountTypeCommBas"/>
+        </jxb:bindings>        
+        <jxb:bindings node="//xsd:element[@name='AdditionalInformation']">
+            <jxb:factoryMethod name="AdditionalInformationCommBas"/>
+        </jxb:bindings>
+        <jxb:bindings node="//xsd:element[@name='Location']">
+            <jxb:factoryMethod name="LocationCommBas"/>
         </jxb:bindings>
     </jxb:bindings> 
     <jxb:bindings schemaLocation="../common/UBL-CommonBasicComponents-2.0.xsd">
