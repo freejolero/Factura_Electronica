@@ -19,6 +19,9 @@
                             <schemaIncludes>
                                 <include>jaxb/Factura/*.xsd</include>
                             </schemaIncludes>
+                            <bindingIncludes>
+                                <include>jaxb/Factura/*.xml</include>
+                            </bindingIncludes>
                             <episodeFile>${project.build.directory}/generated-sources/xjc/META-INF/jaxb-Factura.episode</episodeFile>
                             <generatePackage>com.olva.sunatfe.be</generatePackage>
                         </configuration>
