@@ -15,6 +15,7 @@ import com.olva.sunatfe.be.PayableAmountType;
 import com.olva.sunatfe.be.UBLExtensionType;
 import com.olva.sunatfe.be.UBLExtensionsType;
 import com.olva.sunatfe.be.UBLVersionIDType;
+import com.sun.org.apache.xerces.internal.dom.ElementNSImpl;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.logging.Level;
@@ -83,6 +84,8 @@ public class FacturaElectronicaTest {
             ExtensionContentType ect = ob.createExtensionContentType();
             
             JAXBElement<AdditionalInformationTypeSunatAgg> jeAits = ob.createAdditionalInformation(aits);
+            ElementNSImpl elemen;
+            
             
 //            Element elem = (Element) jeAits;
 //            ect.setAny(elem);
@@ -115,8 +118,8 @@ public class FacturaElectronicaTest {
 		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
  
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		InvoiceType invoice = (InvoiceType) jaxbUnmarshaller.unmarshal(file);
-		System.out.println(invoice);
+		JAXBElement<InvoiceType> invoice = (JAXBElement<InvoiceType>) jaxbUnmarshaller.unmarshal(file);
+		System.out.println(invoice.toString());
  
 	  } catch (JAXBException e) {
 		e.printStackTrace();
