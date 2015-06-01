@@ -6,6 +6,7 @@
 package com.olva.sunatfe.be;
 
 import com.olva.sunatfe.enu.CodigoConceptosTributarios;
+import com.olva.sunatfe.enu.CodigoElementosAdicionalesComprobante;
 import java.math.BigDecimal;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -67,6 +68,10 @@ public class Invoice {
         amtt.setID(idAMonetaryTotal);
         amtt.setPayableAmount(pa);
         informacionAdicional.getAdditionalMonetaryTotal().add(amtt);
+    }
+    
+    public void addFacturaExtensionesExtensionContenidoDeExtensionInformacionAdicionalPropiedadAdicional(CodigoElementosAdicionalesComprobante cod, String valor) {
+        
     }
 
     public void setUBLIdVersion(String version) {

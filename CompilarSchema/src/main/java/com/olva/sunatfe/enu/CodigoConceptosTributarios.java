@@ -31,5 +31,4 @@ public enum CodigoConceptosTributarios {
     private CodigoConceptosTributarios(String codigo) {
         this.codigo = codigo;
     }
-
 }
