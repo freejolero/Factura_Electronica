@@ -9,13 +9,14 @@ import com.olva.sunatfe.be.AdditionalInformationTypeSunatAgg;
 import com.olva.sunatfe.be.AdditionalMonetaryTotalType;
 import com.olva.sunatfe.be.ExtensionContentType;
 import com.olva.sunatfe.be.IDType;
+import com.olva.sunatfe.be.Invoice;
 import com.olva.sunatfe.be.InvoiceType;
 import com.olva.sunatfe.be.ObjectFactory;
 import com.olva.sunatfe.be.PayableAmountType;
 import com.olva.sunatfe.be.UBLExtensionType;
 import com.olva.sunatfe.be.UBLExtensionsType;
 import com.olva.sunatfe.be.UBLVersionIDType;
-import com.sun.org.apache.xerces.internal.dom.ElementNSImpl;
+import com.olva.sunatfe.enu.CodigoConceptosTributarios;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.logging.Level;
@@ -25,11 +26,13 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.dom.DOMResult;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -37,22 +40,22 @@ import org.w3c.dom.Element;
  * @author christian
  */
 public class FacturaElectronicaTest {
-
+    
     public FacturaElectronicaTest() {
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
     }
-
+    
     @After
     public void tearDown() {
     }
@@ -63,46 +66,57 @@ public class FacturaElectronicaTest {
     @Test
     public void marshallFacturaElectronica() {
         try {
-            ObjectFactory ob = new ObjectFactory();
-            IDType idAMonetaryTotal = ob.createIDType();
-            idAMonetaryTotal.setValue("1001");
-            PayableAmountType pa = ob.createPayableAmountType();
-            pa.setValue(new BigDecimal("348199.15"));
-            AdditionalMonetaryTotalType amtt = ob.createAdditionalMonetaryTotalType();
-            amtt.setID(idAMonetaryTotal);
-            amtt.setPayableAmount(pa);
-            IDType idAMonetaryTotal2 = ob.createIDType();
-            idAMonetaryTotal2.setValue("1003");
-            AdditionalMonetaryTotalType amtt2 = ob.createAdditionalMonetaryTotalType();
-            PayableAmountType pa2 = ob.createPayableAmountType();
-            pa2.setValue(new BigDecimal("12350.00"));
-            amtt2.setID(idAMonetaryTotal2);
-            amtt2.setPayableAmount(pa2);
-            AdditionalInformationTypeSunatAgg aits = ob.createAdditionalInformationTypeSunatAgg();            
-            aits.getAdditionalMonetaryTotal().add(amtt);
-            aits.getAdditionalMonetaryTotal().add(amtt2);
-            ExtensionContentType ect = ob.createExtensionContentType();
-            
-            JAXBElement<AdditionalInformationTypeSunatAgg> jeAits = ob.createAdditionalInformation(aits);
-            ElementNSImpl elemen;
-            
-            
-//            Element elem = (Element) jeAits;
+//            ObjectFactory ob = new ObjectFactory();
+//            IDType idAMonetaryTotal = ob.createIDType();
+//            idAMonetaryTotal.setValue("1001");
+//            PayableAmountType pa = ob.createPayableAmountType();
+//            pa.setValue(new BigDecimal("348199.15"));
+//            AdditionalMonetaryTotalType amtt = ob.createAdditionalMonetaryTotalType();
+//            amtt.setID(idAMonetaryTotal);
+//            amtt.setPayableAmount(pa);
+//            IDType idAMonetaryTotal2 = ob.createIDType();
+//            idAMonetaryTotal2.setValue("1003");
+//            AdditionalMonetaryTotalType amtt2 = ob.createAdditionalMonetaryTotalType();
+//            PayableAmountType pa2 = ob.createPayableAmountType();
+//            pa2.setValue(new BigDecimal("12350.00"));
+//            amtt2.setID(idAMonetaryTotal2);
+//            amtt2.setPayableAmount(pa2);
+//            AdditionalInformationTypeSunatAgg aits = ob.createAdditionalInformationTypeSunatAgg();            
+//            aits.getAdditionalMonetaryTotal().add(amtt);
+//            aits.getAdditionalMonetaryTotal().add(amtt2);
+//            ExtensionContentType ect = ob.createExtensionContentType();
+
+//            JAXBElement<AdditionalInformationTypeSunatAgg> jeAits = ob.createAdditionalInformation(aits);
+//
+//            JAXBContext context = JAXBContext.newInstance(ObjectFactory.class);
+//            Marshaller marshaller = context.createMarshaller();
+//            DOMResult res = new DOMResult();
+//            marshaller.marshal(jeAits, res);
+//            Element elem = ((Document) res.getNode()).getDocumentElement();
+//            
 //            ect.setAny(elem);
-            UBLExtensionType uet = ob.createUBLExtensionType();
-            uet.setExtensionContent(ect);
-            UBLExtensionsType uest = ob.createUBLExtensionsType();
-            uest.getUBLExtension().add(uet);
-            InvoiceType invoiceType = ob.createInvoiceType();
+//            UBLExtensionType uet = ob.createUBLExtensionType();
+//            uet.setExtensionContent(ect);
+//            UBLExtensionsType uest = ob.createUBLExtensionsType();
+//            uest.getUBLExtension().add(uet);
+//            InvoiceType invoiceType = ob.createInvoiceType();
+//            
+//            
 //            invoiceType.setUBLExtensions(uest);
-            UBLVersionIDType lVersionIDType = ob.createUBLVersionIDType();
-            lVersionIDType.setValue("2.0");
-            invoiceType.setUBLVersionID(lVersionIDType);
-            JAXBContext jc = JAXBContext.newInstance(ObjectFactory.class);
-            Marshaller marshaller = jc.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.setProperty(Marshaller.JAXB_ENCODING, "ISO-8859-1");
-            marshaller.marshal(ob.createInvoice(invoiceType), System.out);
+//            
+//            
+//            UBLVersionIDType lVersionIDType = ob.createUBLVersionIDType();
+//            lVersionIDType.setValue("2.0");
+//            invoiceType.setUBLVersionID(lVersionIDType);
+//            JAXBContext jc = JAXBContext.newInstance(ObjectFactory.class);
+//            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//            marshaller.setProperty(Marshaller.JAXB_ENCODING, "ISO-8859-1");
+//            marshaller.marshal(ob.createInvoice(invoiceType), System.out);
+            Invoice invoice = new Invoice();
+            invoice.addFacturaExtensionesExtensionContenidoDeExtensionInformacionAdicionalTotalMonetario(CodigoConceptosTributarios.TOTAL_VALO_VENTA_OPERACIONES_GRABADAS, new BigDecimal("348199.15"));
+            invoice.addFacturaExtensionesExtensionContenidoDeExtensionInformacionAdicionalTotalMonetario(CodigoConceptosTributarios.TOTAL_VALO_VENTA_OPERACIONES_EXONERADAS, new BigDecimal("12350.00"));
+            invoice.setUBLIdVersion("2.0");
+            invoice.generar();
         } catch (JAXBException ex) {
             Logger.getLogger(FacturaElectronicaTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception e) {
@@ -111,18 +125,18 @@ public class FacturaElectronicaTest {
     }
     
     @Test
-    public void unMarshallFacturaElectronica(){
-         try {
- 
-		File file = new File("F:\\factura.xml");
-		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
- 
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		JAXBElement<InvoiceType> invoice = (JAXBElement<InvoiceType>) jaxbUnmarshaller.unmarshal(file);
-		System.out.println(invoice.toString());
- 
-	  } catch (JAXBException e) {
-		e.printStackTrace();
-	  }
+    public void unMarshallFacturaElectronica() {
+        try {
+            
+            File file = new File("F:\\factura.xml");
+            JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
+            
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            JAXBElement<InvoiceType> invoice = (JAXBElement<InvoiceType>) jaxbUnmarshaller.unmarshal(file);
+            System.out.println(invoice.toString());
+            
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 }
