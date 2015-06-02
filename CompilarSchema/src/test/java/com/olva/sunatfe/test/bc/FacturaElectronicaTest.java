@@ -5,18 +5,11 @@
  */
 package com.olva.sunatfe.test.bc;
 
-import com.olva.sunatfe.be.AdditionalInformationTypeSunatAgg;
-import com.olva.sunatfe.be.AdditionalMonetaryTotalType;
-import com.olva.sunatfe.be.ExtensionContentType;
-import com.olva.sunatfe.be.IDType;
 import com.olva.sunatfe.be.Invoice;
 import com.olva.sunatfe.be.InvoiceType;
 import com.olva.sunatfe.be.ObjectFactory;
-import com.olva.sunatfe.be.PayableAmountType;
-import com.olva.sunatfe.be.UBLExtensionType;
-import com.olva.sunatfe.be.UBLExtensionsType;
-import com.olva.sunatfe.be.UBLVersionIDType;
 import com.olva.sunatfe.enu.CodigoConceptosTributarios;
+import com.olva.sunatfe.enu.CodigoElementosAdicionalesComprobante;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.logging.Level;
@@ -24,16 +17,12 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.dom.DOMResult;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  *
@@ -69,7 +58,9 @@ public class FacturaElectronicaTest {
             Invoice invoice = new Invoice();
             invoice.addFacturaExtensionesExtensionContenidoDeExtensionInformacionAdicionalTotalMonetario(CodigoConceptosTributarios.TOTAL_VALO_VENTA_OPERACIONES_GRABADAS, new BigDecimal("348199.15"));
             invoice.addFacturaExtensionesExtensionContenidoDeExtensionInformacionAdicionalTotalMonetario(CodigoConceptosTributarios.TOTAL_VALO_VENTA_OPERACIONES_EXONERADAS, new BigDecimal("12350.00"));
+            invoice.addFacturaExtensionesExtensionContenidoDeExtensionInformacionAdicionalPropiedadAdicional(CodigoElementosAdicionalesComprobante.MONTO_EN_LETRAS, "CUATROCIENTOS VEINTITRES MIL DOSCIENTOS VEINTICINCO Y 00/100");
             invoice.setUBLIdVersion("2.0");
+            
             invoice.generar();
         } catch (JAXBException ex) {
             Logger.getLogger(FacturaElectronicaTest.class.getName()).log(Level.SEVERE, null, ex);

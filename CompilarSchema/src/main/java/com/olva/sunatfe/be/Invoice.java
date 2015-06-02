@@ -71,7 +71,14 @@ public class Invoice {
     }
     
     public void addFacturaExtensionesExtensionContenidoDeExtensionInformacionAdicionalPropiedadAdicional(CodigoElementosAdicionalesComprobante cod, String valor) {
-        
+        IDType IdPropiedadAdicional = FACTORIA.createIDType();
+        IdPropiedadAdicional.setValue(cod.getCodigo());
+        ValueType valorDePropiedad = FACTORIA.createValueType();
+        valorDePropiedad.setValue(valor);
+        AdditionalPropertyType propiedadAdicional = FACTORIA.createAdditionalPropertyType();
+        propiedadAdicional.setID(IdPropiedadAdicional);
+        propiedadAdicional.setValue(valorDePropiedad);
+        informacionAdicional.getAdditionalProperty().add(propiedadAdicional);
     }
 
     public void setUBLIdVersion(String version) {
