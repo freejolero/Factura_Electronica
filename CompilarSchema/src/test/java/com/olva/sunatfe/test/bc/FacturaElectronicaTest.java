@@ -5,6 +5,7 @@
  */
 package com.olva.sunatfe.test.bc;
 
+import com.olva.sunatfe.be.CurrencyCodeContentType;
 import com.olva.sunatfe.be.Invoice;
 import com.olva.sunatfe.be.InvoiceType;
 import com.olva.sunatfe.be.ObjectFactory;
@@ -12,6 +13,7 @@ import com.olva.sunatfe.enu.CodTipDocIdentidad;
 import com.olva.sunatfe.enu.CodigoConceptosTributarios;
 import com.olva.sunatfe.enu.CodigoElementosAdicionalesComprobante;
 import com.olva.sunatfe.enu.CodigoTipoDocumento;
+import com.olva.sunatfe.enu.CodigoTipoTributo;
 import com.olva.sunatfe.service.BillService;
 import com.olva.sunatfe.service.BillService_Service;
 import java.io.File;
@@ -80,6 +82,13 @@ public class FacturaElectronicaTest {
             invoice.setAccountingSupplierPartyPartyPostalAddressDistrict("EL AGUSTINO");
             invoice.setAccountingSupplierPartyPartyPostalAddressCountryIdentificationCode("PE");
             invoice.setAccountingSupplierPartyPartyPartyLegalEntityRegistrationName("SOPORTE TECNOLOGICOS EIRL");
+            invoice.setAccountingCustomerPartyCustomerAssignedAccountID("20587896411");
+            invoice.setAccountingCustomerPartyAdditionalAccountID(CodTipDocIdentidad.RUC);
+            invoice.setAccountingCustomerPartyPartyPartyLegalEntityRegistrationName("SERVICABINAS S.A.");
+            invoice.setTaxTotalTaxAmount(new BigDecimal("62675.85"), CurrencyCodeContentType.PEN);
+            invoice.setTaxTotalTaxSubtotalTaxAmount(new BigDecimal("62675.85"), CurrencyCodeContentType.PEN);
+            invoice.setTaxTotalTaxSubtotalTaxCategoryTaxScheme(CodigoTipoTributo.IGV);
+            invoice.setLegalMonetaryTotalPayableAmount(new BigDecimal("423225.00"), CurrencyCodeContentType.PEN);
             invoice.generar();
         } catch (JAXBException ex) {
             Logger.getLogger(FacturaElectronicaTest.class.getName()).log(Level.SEVERE, null, ex);
