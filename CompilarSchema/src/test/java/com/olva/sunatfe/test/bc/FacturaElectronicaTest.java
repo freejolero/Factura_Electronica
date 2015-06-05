@@ -10,6 +10,8 @@ import com.olva.sunatfe.be.InvoiceType;
 import com.olva.sunatfe.be.ObjectFactory;
 import com.olva.sunatfe.enu.CodigoConceptosTributarios;
 import com.olva.sunatfe.enu.CodigoElementosAdicionalesComprobante;
+import com.olva.sunatfe.service.BillService;
+import com.olva.sunatfe.service.BillService_Service;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -87,4 +89,20 @@ public class FacturaElectronicaTest {
             e.printStackTrace();
         }
     }
+    
+//    public void sendBill(){
+//        
+//        try { // Call Web Service Operation
+//            BillService_Service service = new BillService_Service();
+//            BillService port = service.getBillServicePort();
+//            // TODO initialize WS operation arguments here
+//            java.lang.String fileName = "";
+//            javax.activation.DataHandler contentFile = new javax.activation.DataHandler();
+//            // TODO process result here
+//            byte[] result = port.sendBill(fileName, contentFile);
+//            System.out.println("Result = "+result);
+//        } catch (Exception ex) {
+//            // TODO handle custom exceptions here
+//        } 
+//    }
 }
