@@ -5,6 +5,7 @@
  */
 package com.olva.sunatfe.test.bc;
 
+import com.olva.sunatfe.bc.HeaderHandlerResolver;
 import com.olva.sunatfe.be.CurrencyCodeContentType;
 import com.olva.sunatfe.be.Invoice;
 import com.olva.sunatfe.be.InvoiceDetail;
@@ -24,10 +25,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.ws.soap.SOAPFaultException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -58,10 +62,7 @@ public class FacturaElectronicaTest {
     @After
     public void tearDown() {
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
+    
     @Test
     public void marshallFacturaElectronica() {
         try {
@@ -138,19 +139,25 @@ public class FacturaElectronicaTest {
         }
     }
 
-//    public void sendBill(){
-//        
-//        try { // Call Web Service Operation
-//            BillService_Service service = new BillService_Service();
-//            BillService port = service.getBillServicePort();
-//            // TODO initialize WS operation arguments here
-//            java.lang.String fileName = "";
-//            javax.activation.DataHandler contentFile = new javax.activation.DataHandler();
-//            // TODO process result here
-//            byte[] result = port.sendBill(fileName, contentFile);
-//            System.out.println("Result = "+result);
-//        } catch (Exception ex) {
-//            // TODO handle custom exceptions here
-//        } 
-//    }
+    @Test
+    public void sendBill(){
+        
+        try { // Call Web Service Operation
+            BillService_Service service = new BillService_Service();
+            service.setHandlerResolver(new HeaderHandlerResolver());
+            BillService port = service.getBillServicePort();
+            // TODO initialize WS operation arguments here
+            java.lang.String fileName = "10428482072-01-F001-1.zip";
+            DataSource fds = new FileDataSource("F:\\10428482072-01-F001-1.zip");
+            javax.activation.DataHandler contentFile = new javax.activation.DataHandler(fds);
+            // TODO process result here
+            byte[] result = port.sendBill(fileName, contentFile);
+            System.out.println("Result = "+result);
+        }catch(SOAPFaultException ex){
+            System.out.println(ex.getFault().getFaultCode());
+            System.out.println(ex.getFault().getFaultString());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } 
+    }
 }
