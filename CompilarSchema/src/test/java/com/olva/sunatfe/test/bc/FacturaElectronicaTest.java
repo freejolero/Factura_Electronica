@@ -7,12 +7,15 @@ package com.olva.sunatfe.test.bc;
 
 import com.olva.sunatfe.be.CurrencyCodeContentType;
 import com.olva.sunatfe.be.Invoice;
+import com.olva.sunatfe.be.InvoiceDetail;
 import com.olva.sunatfe.be.InvoiceType;
 import com.olva.sunatfe.be.ObjectFactory;
 import com.olva.sunatfe.enu.CodTipDocIdentidad;
 import com.olva.sunatfe.enu.CodigoConceptosTributarios;
 import com.olva.sunatfe.enu.CodigoElementosAdicionalesComprobante;
+import com.olva.sunatfe.enu.CodigoTipoAfectacionIgv;
 import com.olva.sunatfe.enu.CodigoTipoDocumento;
+import com.olva.sunatfe.enu.CodigoTipoPrecioVentaUnit;
 import com.olva.sunatfe.enu.CodigoTipoTributo;
 import com.olva.sunatfe.service.BillService;
 import com.olva.sunatfe.service.BillService_Service;
@@ -72,6 +75,12 @@ public class FacturaElectronicaTest {
             invoice.setIssueDate(new Date());
             invoice.setInvoiceTypeCode(CodigoTipoDocumento.FACTURA);
             invoice.setDocumentCurrencyCode("PEN");
+            
+            invoice.setSignatureId("IDSignOlva");
+            invoice.setSignatureSignatoryPartyPartyIdentificationId("10428482072");
+            invoice.setSignatureSignatoryPartyPartyNameName("OLVA COURIER SAC");
+            invoice.setSignatureDigitalSignatureAttachmentExternalReferenceURI("#SignatureOlva");
+            
             invoice.setAccountingSupplierPartyCustomerAssignedAccountID("10428482072");
             invoice.setAccountingSupplierPartyAdditionalAccountID(CodTipDocIdentidad.RUC);
             invoice.setAccountingSupplierPartyPartyPostalAddressId("150111");
@@ -89,6 +98,22 @@ public class FacturaElectronicaTest {
             invoice.setTaxTotalTaxSubtotalTaxAmount(new BigDecimal("62675.85"), CurrencyCodeContentType.PEN);
             invoice.setTaxTotalTaxSubtotalTaxCategoryTaxScheme(CodigoTipoTributo.IGV);
             invoice.setLegalMonetaryTotalPayableAmount(new BigDecimal("423225.00"), CurrencyCodeContentType.PEN);
+
+            InvoiceDetail det1 = new InvoiceDetail();
+            det1.setId("1");
+            det1.setInvoicedQuantity("NIU", new BigDecimal("2000"));
+            det1.setLineExtensionAmount(CurrencyCodeContentType.PEN, new BigDecimal("149491.53"));
+            det1.setPricingReferenceAlternativeConditionPricePriceAmount(CurrencyCodeContentType.PEN, new BigDecimal("98.00"));
+            det1.setPricingReferenceAlternativeConditionPricePriceTypeCode(CodigoTipoPrecioVentaUnit.PRECIO_UNITARIO); //cambiar
+            det1.setTaxTotalTaxAmount(new BigDecimal("26908.47"), CurrencyCodeContentType.PEN);
+            det1.setTaxTotalTaxSubtotalTaxAmount(new BigDecimal("26908.47"), CurrencyCodeContentType.PEN);
+            det1.setTaxTotalTaxSubtotalTaxCategoryTaxExemptionReasonCode(CodigoTipoAfectacionIgv.GRABADO_OPERACION_ONEROSA);
+            det1.setTaxTotalTaxSubtotalTaxCategoryTaxScheme(CodigoTipoTributo.IGV);
+            det1.setItemDescription("Grabadora LG Externo Modelo: GE20LU10");
+            det1.setItemDescriptionSellersItemIdentificationId("GLG199");
+            det1.setPricePriceAmount(new BigDecimal("83.05"), CurrencyCodeContentType.PEN);
+            invoice.addInvoiceLine(det1);
+            
             invoice.generar();
         } catch (JAXBException ex) {
             Logger.getLogger(FacturaElectronicaTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,7 +137,7 @@ public class FacturaElectronicaTest {
             e.printStackTrace();
         }
     }
-    
+
 //    public void sendBill(){
 //        
 //        try { // Call Web Service Operation

@@ -6,6 +6,7 @@
 package com.olva.sunatfe.be;
 
 import com.olva.sunatfe.enu.CodigoTipoAfectacionIgv;
+import com.olva.sunatfe.enu.CodigoTipoPrecioVentaUnit;
 import com.olva.sunatfe.enu.CodigoTipoTributo;
 import java.math.BigDecimal;
 
@@ -22,7 +23,7 @@ public class InvoiceDetail {
     private BigDecimal lineExtensionAmountMonto;
     private CurrencyCodeContentType priceAmountCurrencyCode;
     private BigDecimal priceAmountMonto;
-    private String priceTypeCode;
+    private CodigoTipoPrecioVentaUnit priceTypeCode;
     private BigDecimal taxTotalTaxAmountMonto;
     private CurrencyCodeContentType taxTotalTaxAmountCodigo;
     private BigDecimal taxTotalTaxSubtotalTaxAmountMonto;
@@ -49,7 +50,7 @@ public class InvoiceDetail {
         priceAmountMonto = monto;
     }
 
-    public void setPricingReferenceAlternativeConditionPricePriceTypeCode(String codigo) {
+    public void setPricingReferenceAlternativeConditionPricePriceTypeCode(CodigoTipoPrecioVentaUnit codigo) {
         priceTypeCode = codigo;
     }
 
@@ -67,7 +68,7 @@ public class InvoiceDetail {
         categoryTaxScheme = codigo;
     }
 
-    public void setTaxTotalTaxSubtotalTaxCategoryTaxSchemeTaxExemptionReasonCode(CodigoTipoAfectacionIgv codigo) {
+    public void setTaxTotalTaxSubtotalTaxCategoryTaxExemptionReasonCode(CodigoTipoAfectacionIgv codigo) {
         taxExemptionReasonCode = codigo;
     }
 
@@ -82,6 +83,10 @@ public class InvoiceDetail {
     public void setPricePriceAmount(BigDecimal monto, CurrencyCodeContentType codigo) {
         pricePriceAmountMonto = monto;
         PricePriceAmountCodigo = codigo;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {
@@ -112,7 +117,7 @@ public class InvoiceDetail {
         return priceAmountMonto;
     }
 
-    public String getPriceTypeCode() {
+    public CodigoTipoPrecioVentaUnit getPriceTypeCode() {
         return priceTypeCode;
     }
 
