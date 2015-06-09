@@ -21,6 +21,7 @@ import com.olva.sunatfe.enu.CodigoTipoTributo;
 import com.olva.sunatfe.service.BillService;
 import com.olva.sunatfe.service.BillService_Service;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.logging.Level;
@@ -62,7 +63,7 @@ public class FacturaElectronicaTest {
     @After
     public void tearDown() {
     }
-    
+
     @Test
     public void marshallFacturaElectronica() {
         try {
@@ -76,12 +77,12 @@ public class FacturaElectronicaTest {
             invoice.setIssueDate(new Date());
             invoice.setInvoiceTypeCode(CodigoTipoDocumento.FACTURA);
             invoice.setDocumentCurrencyCode("PEN");
-            
+
             invoice.setSignatureId("IDSignOlva");
             invoice.setSignatureSignatoryPartyPartyIdentificationId("10428482072");
             invoice.setSignatureSignatoryPartyPartyNameName("OLVA COURIER SAC");
             invoice.setSignatureDigitalSignatureAttachmentExternalReferenceURI("#SignatureOlva");
-            
+
             invoice.setAccountingSupplierPartyCustomerAssignedAccountID("10428482072");
             invoice.setAccountingSupplierPartyAdditionalAccountID(CodTipDocIdentidad.RUC);
             invoice.setAccountingSupplierPartyPartyPostalAddressId("150111");
@@ -114,8 +115,10 @@ public class FacturaElectronicaTest {
             det1.setItemDescriptionSellersItemIdentificationId("GLG199");
             det1.setPricePriceAmount(new BigDecimal("83.05"), CurrencyCodeContentType.PEN);
             invoice.addInvoiceLine(det1);
-            
+
             invoice.generar();
+            invoice.validar();
+
         } catch (JAXBException ex) {
             Logger.getLogger(FacturaElectronicaTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception e) {
@@ -127,7 +130,7 @@ public class FacturaElectronicaTest {
     public void unMarshallFacturaElectronica() {
         try {
 
-            File file = new File("F:\\factura.xml");
+            File file = new File("C:\\Users\\christian\\Documents\\10428482072-01-F001-1.xml");
             JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -140,24 +143,32 @@ public class FacturaElectronicaTest {
     }
 
     @Test
-    public void sendBill(){
-        
+    public void validateSchema() {
+
+    }
+
+    @Test
+    public void sendBill() {
+
         try { // Call Web Service Operation
             BillService_Service service = new BillService_Service();
             service.setHandlerResolver(new HeaderHandlerResolver());
             BillService port = service.getBillServicePort();
             // TODO initialize WS operation arguments here
             java.lang.String fileName = "10428482072-01-F001-1.zip";
-            DataSource fds = new FileDataSource("F:\\10428482072-01-F001-1.zip");
+            DataSource fds = new FileDataSource("C:\\Users\\christian\\Documents\\10428482072-01-F001-1.zip");
             javax.activation.DataHandler contentFile = new javax.activation.DataHandler(fds);
             // TODO process result here
             byte[] result = port.sendBill(fileName, contentFile);
-            System.out.println("Result = "+result);
-        }catch(SOAPFaultException ex){
+            FileOutputStream fileOuputStream = new FileOutputStream("C:\\Users\\christian\\Documents\\respuesta.zip");
+            fileOuputStream.write(result);
+            fileOuputStream.close();
+            System.out.println("Result = " + result);
+        } catch (SOAPFaultException ex) {
             System.out.println(ex.getFault().getFaultCode());
             System.out.println(ex.getFault().getFaultString());
         } catch (Exception ex) {
             ex.printStackTrace();
-        } 
+        }
     }
 }

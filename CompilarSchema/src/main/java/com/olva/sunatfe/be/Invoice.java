@@ -10,10 +10,12 @@ import com.olva.sunatfe.enu.CodigoConceptosTributarios;
 import com.olva.sunatfe.enu.CodigoElementosAdicionalesComprobante;
 import com.olva.sunatfe.enu.CodigoTipoDocumento;
 import com.olva.sunatfe.enu.CodigoTipoTributo;
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -22,8 +24,12 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.transform.dom.DOMResult;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  *
@@ -125,6 +131,15 @@ public class Invoice {
         attachmentType = FACTORIA.createAttachmentType();
         ert = FACTORIA.createExternalReferenceType();
     }
+    
+    public void validar() throws JAXBException, SAXException{
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = schemaFactory.newSchema(new File("C:\\Users\\christian\\Downloads\\FacturaElectronica\\XSD_FE23122014\\UBLPE-Invoice-1.0.xsd"));
+
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setSchema(schema);
+        marshaller.marshal(FACTORIA.createInvoice(invoiceType), new DefaultHandler());
+    }
                 
     public void generar() throws JAXBException {
         JAXBElement<AdditionalInformationTypeSunatAgg> jeAits = FACTORIA.createAdditionalInformation(informacionAdicional);
@@ -139,6 +154,7 @@ public class Invoice {
         IDType idAMonetaryTotal = FACTORIA.createIDType();
         idAMonetaryTotal.setValue(cod.getCodigo());
         PayableAmountType pa = FACTORIA.createPayableAmountType();
+        pa.setCurrencyID(CurrencyCodeContentType.PEN);
         pa.setValue(monto);
         AdditionalMonetaryTotalType amtt = FACTORIA.createAdditionalMonetaryTotalType();
         amtt.setID(idAMonetaryTotal);
@@ -381,6 +397,22 @@ public class Invoice {
         tst.setTaxCategory(tct);
         ttt.getTaxSubtotal().add(tst);
         ilt.getTaxTotal().add(ttt);
+        ItemType itemType = FACTORIA.createItemType();
+        DescriptionType descriptionType = FACTORIA.createDescriptionType();
+        descriptionType.setValue(det.getItemDescription());
+        itemType.getDescription().add(descriptionType);
+        ItemIdentificationType identificationType = FACTORIA.createItemIdentificationType();
+        IDType dTypeItem = FACTORIA.createIDType();
+        dTypeItem.setValue(det.getItemDescriptionSellersItemIdentificationId());
+        identificationType.setID(dTypeItem);
+        itemType.setSellersItemIdentification(identificationType);
+        ilt.setItem(itemType);        
+        PriceType priceTypeDet = FACTORIA.createPriceType();
+        PriceAmountType amountTypeDet = FACTORIA.createPriceAmountType();
+        amountTypeDet.setCurrencyID(det.getPricePriceAmountCodigo());
+        amountTypeDet.setValue(det.getPricePriceAmountMonto());
+        priceTypeDet.setPriceAmount(amountTypeDet);
+        ilt.setPrice(priceTypeDet);
         invoiceType.getInvoiceLine().add(ilt);
     }
 
