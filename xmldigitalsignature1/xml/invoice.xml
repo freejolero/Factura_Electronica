@@ -6,11 +6,11 @@
                 <sac:AdditionalInformation>
                     <sac:AdditionalMonetaryTotal>
                         <cbc:ID>1001</cbc:ID>
-                        <cbc:PayableAmount>348199.15</cbc:PayableAmount>
+                        <cbc:PayableAmount currencyID="PEN">348199.15</cbc:PayableAmount>
                     </sac:AdditionalMonetaryTotal>
                     <sac:AdditionalMonetaryTotal>
                         <cbc:ID>1003</cbc:ID>
-                        <cbc:PayableAmount>12350.00</cbc:PayableAmount>
+                        <cbc:PayableAmount currencyID="PEN">12350.00</cbc:PayableAmount>
                     </sac:AdditionalMonetaryTotal>
                     <sac:AdditionalProperty>
                         <cbc:ID>1000</cbc:ID>
@@ -26,7 +26,7 @@
     <cbc:UBLVersionID>2.0</cbc:UBLVersionID>
     <cbc:CustomizationID>1.0</cbc:CustomizationID>
     <cbc:ID>F001-4355</cbc:ID>
-    <cbc:IssueDate>2015-06-06</cbc:IssueDate>
+    <cbc:IssueDate>2015-06-08</cbc:IssueDate>
     <cbc:InvoiceTypeCode>01</cbc:InvoiceTypeCode>
     <cbc:DocumentCurrencyCode>PEN</cbc:DocumentCurrencyCode>
     <cac:Signature>
@@ -114,5 +114,14 @@
                 </cac:TaxCategory>
             </cac:TaxSubtotal>
         </cac:TaxTotal>
+        <cac:Item>
+            <cbc:Description>Grabadora LG Externo Modelo: GE20LU10</cbc:Description>
+            <cac:SellersItemIdentification>
+                <cbc:ID>GLG199</cbc:ID>
+            </cac:SellersItemIdentification>
+        </cac:Item>
+        <cac:Price>
+            <cbc:PriceAmount currencyID="PEN">83.05</cbc:PriceAmount>
+        </cac:Price>
     </cac:InvoiceLine>
 </Invoice>

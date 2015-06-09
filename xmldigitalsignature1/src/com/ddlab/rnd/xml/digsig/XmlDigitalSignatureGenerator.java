@@ -130,7 +130,15 @@ public class XmlDigitalSignatureGenerator {
         XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
         PrivateKey privateKey = new KryptoUtil().getStoredPrivateKey(privateKeyFilePath);
 //        DOMSignContext domSignCtx = new DOMSignContext(privateKey, doc.getDocumentElement(), doc.getDocumentElement().getFirstChild().getNextSibling().getFirstChild().getNextSibling().getNextSibling().getNextSibling().getFirstChild().getNextSibling().getNextSibling());
-        DOMSignContext domSignCtx = new DOMSignContext(privateKey, doc.getDocumentElement().getFirstChild().getNextSibling().getFirstChild().getNextSibling().getNextSibling().getNextSibling());
+        DOMSignContext domSignCtx = new DOMSignContext(privateKey, doc.getDocumentElement()
+                .getFirstChild()
+                .getNextSibling()
+                .getFirstChild()
+                .getNextSibling()
+                .getNextSibling()
+                .getNextSibling()
+        .getFirstChild()
+        .getNextSibling());
         domSignCtx.setDefaultNamespacePrefix("ds");
 
         Reference ref = null;
