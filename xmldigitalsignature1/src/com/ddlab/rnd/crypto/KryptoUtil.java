@@ -10,12 +10,26 @@ import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.KeyStore;
+import java.security.KeyStore.PrivateKeyEntry;
+
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.X509Data;
 
 /**
  * This class is used as a cryptographic utility.
@@ -164,5 +178,16 @@ public class KryptoUtil {
             e.printStackTrace();
         }
         return publicKey;
+    }
+
+    private PrivateKeyEntry keyEntry;
+    private X509Certificate cert;
+
+    public PrivateKeyEntry getLlave() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+        KeyStore ks = KeyStore.getInstance("JKS");
+        ks.load(new FileInputStream("C:\\Users\\CTELLO\\.keystore"), "42848207".toCharArray());
+        keyEntry = (KeyStore.PrivateKeyEntry) ks.getEntry("sunat", new KeyStore.PasswordProtection("42848207".toCharArray()));
+        cert = (X509Certificate) keyEntry.getCertificate();
+        return keyEntry;
     }
 }

@@ -7,10 +7,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.dsig.CanonicalizationMethod;
 import javax.xml.crypto.dsig.DigestMethod;
@@ -25,6 +31,7 @@ import javax.xml.crypto.dsig.dom.DOMSignContext;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -78,19 +85,29 @@ public class XmlDigitalSignatureGenerator {
      * @param publicKeyPath
      * @return KeyInfo
      */
-    private KeyInfo getKeyInfo(XMLSignatureFactory xmlSigFactory, String publicKeyPath) {
-        KeyInfo keyInfo = null;
-        KeyValue keyValue = null;
-        PublicKey publicKey = new KryptoUtil().getStoredPublicKey(publicKeyPath);
-        KeyInfoFactory keyInfoFact = xmlSigFactory.getKeyInfoFactory();
-
-        try {
-            keyValue = keyInfoFact.newKeyValue(publicKey);
-        } catch (KeyException ex) {
-            ex.printStackTrace();
-        }
-        keyInfo = keyInfoFact.newKeyInfo(Collections.singletonList(keyValue));
-        return keyInfo;
+    private KeyInfo getKeyInfo(XMLSignatureFactory xmlSigFactory, String publicKeyPath) throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
+        X509Certificate cert = (X509Certificate) new KryptoUtil().getLlave().getCertificate();   
+        
+        KeyInfoFactory kif = xmlSigFactory.getKeyInfoFactory();
+        List x509Content = new ArrayList();
+        x509Content.add(cert.getSubjectX500Principal().getName());
+        x509Content.add(cert);
+        X509Data xd = kif.newX509Data(x509Content);
+        KeyInfo ki = kif.newKeyInfo(Collections.singletonList(xd));
+        
+//        KeyInfo keyInfo = null;
+//        KeyValue keyValue = null;
+//        PublicKey publicKey = new KryptoUtil().getStoredPublicKey(publicKeyPath);
+//        KeyInfoFactory keyInfoFact = xmlSigFactory.getKeyInfoFactory();
+//
+//        try {
+//            keyValue = keyInfoFact.newKeyValue(publicKey);
+//        } catch (KeyException ex) {
+//            ex.printStackTrace();
+//        }
+//        keyInfo = keyInfoFact.newKeyInfo(Collections.singletonList(keyValue));
+//        return keyInfo;
+        return ki;
     }
 
     /*
@@ -123,12 +140,13 @@ public class XmlDigitalSignatureGenerator {
      * @param publicKeyFilePath
      */
     public void generateXMLDigitalSignature(String originalXmlFilePath,
-            String destnSignedXmlFilePath, String privateKeyFilePath, String publicKeyFilePath) {
+            String destnSignedXmlFilePath, String privateKeyFilePath, String publicKeyFilePath) throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException {
         //Get the XML Document object
         Document doc = getXmlDocument(originalXmlFilePath);
         //Create XML Signature Factory
         XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
-        PrivateKey privateKey = new KryptoUtil().getStoredPrivateKey(privateKeyFilePath);
+//        PrivateKey privateKey = new KryptoUtil().getStoredPrivateKey(privateKeyFilePath);
+        PrivateKey privateKey = new KryptoUtil().getLlave().getPrivateKey();
 //        DOMSignContext domSignCtx = new DOMSignContext(privateKey, doc.getDocumentElement(), doc.getDocumentElement().getFirstChild().getNextSibling().getFirstChild().getNextSibling().getNextSibling().getNextSibling().getFirstChild().getNextSibling().getNextSibling());
         DOMSignContext domSignCtx = new DOMSignContext(privateKey, doc.getDocumentElement()
                 .getFirstChild()
