@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/CTELLO/Downloads/XSD_FE23122014/UBLPE-Invoice-1.0.xsd" uri="src/main/resources/jaxb/Factura/UBLPE-Invoice-1.0.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/UBLPE-SunatAggregateComponents-1.0.xsd" uri="src/main/resources/jaxb/common/UBLPE-SunatAggregateComponents-1.0.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/UBL-CommonAggregateComponents-2.0.xsd" uri="src/main/resources/jaxb/common/UBL-CommonAggregateComponents-2.0.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/UBL-CommonBasicComponents-2.0.xsd" uri="src/main/resources/jaxb/common/UBL-CommonBasicComponents-2.0.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/UnqualifiedDataTypeSchemaModule-2.0.xsd" uri="src/main/resources/jaxb/common/UnqualifiedDataTypeSchemaModule-2.0.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/UBL-CommonExtensionComponents-2.0.xsd" uri="src/main/resources/jaxb/common/UBL-CommonExtensionComponents-2.0.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/UBL-QualifiedDatatypes-2.0.xsd" uri="src/main/resources/jaxb/common/UBL-QualifiedDatatypes-2.0.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/CodeList_UnitCode_UNECE_7_04.xsd" uri="src/main/resources/jaxb/common/CodeList_UnitCode_UNECE_7_04.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/CodeList_MIMEMediaTypeCode_IANA_7_04.xsd" uri="src/main/resources/jaxb/common/CodeList_MIMEMediaTypeCode_IANA_7_04.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/CodeList_CurrencyCode_ISO_7_04.xsd" uri="src/main/resources/jaxb/common/CodeList_CurrencyCode_ISO_7_04.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/CodeList_LanguageCode_ISO_7_04.xsd" uri="src/main/resources/jaxb/common/CodeList_LanguageCode_ISO_7_04.xsd"/>
+    <system systemId="file:/C:/Users/CTELLO/Downloads/common/UBL-ExtensionContentDatatype-2.0.xsd" uri="src/main/resources/jaxb/common/UBL-ExtensionContentDatatype-2.0.xsd"/>
+    <nextCatalog catalog="file:/C:/Users/CTELLO/AppData/Local/NetBeans/Cache/8.0/mavencachedirs/334483024/retriever/catalog.xml"/>
+</catalog>
